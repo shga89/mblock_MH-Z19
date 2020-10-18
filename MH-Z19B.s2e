@@ -1,0 +1,83 @@
+{	"extensionName": "MH-Z19B 이산화탄소 센서",
+	"description": "이산화탄소 센서 MH-Z19B에 대한 엠블럭 확장 블럭입니다. WifWaf가 개발한 아두이노 라이브러리(https://github.com/WifWaf/MH-Z19)를 기반으로 제작되었으며, 이 확장 블럭 또한 GPL 3.0을 따릅니다.",
+	"version": "0.1",
+	"author": "Gaduino",
+	"homepage": "http://www.github.com/shga89",
+	"sort":0,
+	"javascriptURL":"js/MH-Z19B.js",
+    "firmware":"1.0",
+    "extensionPort":0,
+	"blockSpecs": [
+		[
+			"w",
+			"Initialize CO2 Sensor(MH-Z19B, %d.mhz19btype ) connected in Pin RX= %d.pin TX= %d.pin",
+			"MHZ19BInit",
+			"",
+			"",
+			"",
+			{
+				"setup":"
+\/******** ZH03B Setup *********\/
+Serial_MHZ19B.begin(9600);
+Serial_MHZ19B.listen();
+myMHZ19.begin(Serial_MHZ19B);
+myMHZ19.setRange({0});
+\/******************************\/\n",
+				"inc":"#include \"MHZ19.h\"\n",
+				"def":" 
+\/******** ZH03B Define ********\/
+MHZ19 myMHZ19;
+SoftwareSerial Serial_MHZ19B({1}, {2});
+
+int getCO2() {\r\nSerial_MHZ19B.listen();\r\nreturn myMHZ19.getCO2(); }\r\n
+
+float getTemperature() {\r\nSerial_MHZ19B.listen(); \r\nreturn myMHZ19.getTemperature(); } \r\n
+
+\/******************************\/\n",
+				"work":"",
+				"loop":""
+			}
+		],
+		[
+			"r",
+			"Read CO2 from MH-Z19B",
+			"MHZ19BgetCO2",
+			"",
+			{
+				"setup":"",
+				"inc":"",
+				"def":"",
+				"work":"getCO2()",
+				"loop":""
+			}
+		],
+		[
+			"r",
+			"Read Temperature from MH-Z19B",
+			"MHZ19BgetTemp",
+			"",
+			{
+				"setup":"",
+				"inc":"",
+				"def":"",
+				"work":"getTemperature()",
+				"loop":""
+			}
+		]
+	],
+	"menus": {
+		"pin":[2,3,4,5,6,7,8,9,10,11,12,13],
+		"mhz19btype":["0-2000ppm", "0-5000ppm"]
+	},
+	"values": {
+		"0-2000ppm": 2000,
+		"0-5000ppm": 5000
+	},
+	"translators":{
+		"ko":{
+			"Initialize CO2 Sensor(MH-Z19B, %d.mhz19btype ) connected in Pin RX= %d.pin TX= %d.pin":"MH-Z19B(%d.mhz19btype) 초기화: RX= %d.pin , TX= %d.pin",
+			"Read CO2 from MH-Z19B":"MH-Z19B에서 이산화탄소 읽기",
+		    "Read Temperature from MH-Z19B":"MH-Z19B에서 온도 읽기"
+		}		
+	}
+}
